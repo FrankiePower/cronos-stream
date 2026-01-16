@@ -51,4 +51,28 @@ export default defineConfig({
       gasPrice: 5000000000000,
     },
   },
+  etherscan: {
+    apiKey: {
+      cronosTestnet: configVariable("CRONOS_EXPLORER_API_KEY"),
+      cronosMainnet: configVariable("CRONOS_EXPLORER_API_KEY"),
+    },
+    customChains: [
+      {
+        network: "cronosTestnet",
+        chainId: 338,
+        urls: {
+          apiURL: "https://explorer-api.cronos.org/testnet/api/v1/hardhat/contract",
+          browserURL: "https://explorer.cronos.org/testnet",
+        },
+      },
+      {
+        network: "cronosMainnet",
+        chainId: 25,
+        urls: {
+          apiURL: "https://explorer-api.cronos.org/mainnet/api/v1/hardhat/contract",
+          browserURL: "https://explorer.cronos.org",
+        },
+      },
+    ],
+  },
 });

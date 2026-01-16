@@ -18,3 +18,26 @@
 
 # Hardhat coverage reports
 /coverage
+
+# Ignition deployment artifacts (local)
+/ignition/deployments
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Flattened contracts (generated)
+*.flattened.sol
+
+# IDE
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
