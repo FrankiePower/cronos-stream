@@ -1,0 +1,24 @@
+{
+  "network": "cronos-testnet",
+  "chainId": 338,
+  "deployedAt": "2025-01-16",
+  "contracts": {
+    "StreamChannel": {
+      "address": "0xE118E04431853e9df5390E1AACF36dEF6A7a0254",
+      "explorerUrl": "https://explorer.cronos.org/testnet/address/0xE118E04431853e9df5390E1AACF36dEF6A7a0254",
+      "constructorArgs": {
+        "tokenAddress": "0xc01efAaF7C5C61bEbFAeb358E1161b537b8bC0e0",
+        "sequencerAddress": "0xDCe5ae5697f7c7a16C6576CAED57314641A94Fba"
+      },
+      "verified": false
+    }
+  },
+  "externalContracts": {
+    "devUSDC": {
+      "address": "0xc01efAaF7C5C61bEbFAeb358E1161b537b8bC0e0",
+      "symbol": "devUSDC.e",
+      "decimals": 6
+    }
+  },
+  "explorer": "https://explorer.cronos.org/testnet/"
+}
