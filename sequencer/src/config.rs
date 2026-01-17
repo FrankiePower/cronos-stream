@@ -107,14 +107,22 @@ mod tests {
         // Assert values match what is in our .env
         assert_eq!(config.port, 4001);
         assert_eq!(config.chain_id, 31337);
-        assert_eq!(config.database_url, "postgres://x402:x402@localhost:5432/x402");
+        assert_eq!(
+            config.database_url,
+            "postgres://x402:x402@localhost:5432/x402"
+        );
         assert_eq!(config.rpc_url, "http://localhost:8545");
-        assert_eq!(config.sequencer_private_key, "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80");
-        
+        assert_eq!(
+            config.sequencer_private_key,
+            "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+        );
+
         // Check address (case insensitive comparison)
         assert_eq!(
-            config.channel_manager, 
-            "0x5FbDB2315678afecb367f032d93F642f64180aa3".parse::<Address>().unwrap()
+            config.channel_manager,
+            "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+                .parse::<Address>()
+                .unwrap()
         );
     }
 }
