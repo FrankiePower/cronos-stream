@@ -13,9 +13,8 @@ Thumbs.db
 .env.local
 .env.*.local
 
-# Reference projects (not part of main codebase)
-reference-1/
-reference-2/
+# Legacy reference projects (can be deleted after migration)
+# reference-1/
 
 # Node modules (in case of monorepo root)
 node_modules/
