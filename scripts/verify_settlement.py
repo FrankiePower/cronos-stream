@@ -32,6 +32,7 @@ def main():
     print(f"💰 Balance Before: {bal_before} USDC (Raw: {raw_before})")
     
     # 2. Get Channel ID
+    # TODO: Update this to match your active channel ID from the Agent logs or database
     channel_id = "0x6a99273cd613dcaa127d53981cbffc8f47c5b3ebacebf205c7cd310f48e1c0d3"
     
     print(f"Running Settlement for Channel: {channel_id}")
