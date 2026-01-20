@@ -31,6 +31,7 @@ Constants:
 """
 
 import os
+import json
 import time
 from typing import Any, Dict, List, Optional
 
@@ -186,7 +187,7 @@ class PaywallService:
         log=True,
         reraise=False,
     )
-    async def fetch_resource(self, target: dict) -> dict:
+    async def fetch_resource(self, target: dict, use_streaming: bool = True) -> dict:
         """
         Fetch a protected resource, performing X402 settlement if required.
 
@@ -212,6 +213,7 @@ class PaywallService:
             target: Target dict returned by `apply_choice()`, containing:
                 - baseUrl: agent base URL
                 - resource: selected resource dict from AgentCard
+            use_streaming: Whether to attempt streaming payment if available (default True).
 
         Returns:
             A result dict with at minimum:
@@ -261,8 +263,11 @@ class PaywallService:
             challenge = res.json()
             accepts_list = challenge.get("accepts") or []
             
-            # Prefer streaming (channel) payment if available
+            # Prefer streaming (channel) payment if available and enabled
             streaming_opt = next((a for a in accepts_list if a.get("scheme") == "streaming"), None)
+            if not use_streaming:
+                streaming_opt = None
+            
             accepts0 = next((a for a in accepts_list if a.get("scheme") == "exact"), None)
 
             if streaming_opt:
@@ -329,22 +334,46 @@ class PaywallService:
         sequencer_url = extra.get("sequencerUrl", "http://localhost:3000")
         
         # Setup channel manager
-        pk = os.getenv("X402_PRIVATE_KEY")
+        pk = os.getenv("X402_AGENT_PRIVATE_KEY")
         if not pk:
-            raise ConfigError("X402_PRIVATE_KEY is not set")
+            raise ConfigError("X402_AGENT_PRIVATE_KEY is not set")
             
         # Deterministic channel ID for demo (would come from on-chain event in real app)
         # We use a hardcoded valid bytes32 hex for simplicity in this demo
-        import secrets
-        # Random channel ID for demo to ensure fresh state/expiry
-        channel_id = "0x" + secrets.token_hex(32)
+        # Implement simple persistence for channel_id
+        
+        STATE_FILE = "channel_state.json"
+        channel_id = None
+        
+        # Try to load existing channel
+        if os.path.exists(STATE_FILE):
+            try:
+                with open(STATE_FILE, "r") as f:
+                    data = json.load(f)
+                    channel_id = data.get("channelId")
+                    print(f"Loaded persisted channel ID: {channel_id}")
+            except Exception as e:
+                print(f"Failed to load channel state: {e}")
+        
+        # Create new if not found
+        if not channel_id:
+            import secrets
+            channel_id = "0x" + secrets.token_hex(32)
+            # Save it
+            try:
+                with open(STATE_FILE, "w") as f:
+                    json.dump({"channelId": channel_id}, f)
+                    print(f"Created and persisted new channel ID: {channel_id}")
+            except Exception as e:
+                print(f"Failed to save channel state: {e}")
+
         owner_acct = Account.from_key(pk)
         
         cm = ChannelManager(pk, channel_id, owner_acct.address)
         
         # Ensure channel exists (seed if needed)
         expiry = int(time.time()) + 31536000 # 1 year
-        await cm.ensure_channel(sequencer_url, "1000000000000000000", expiry) # 1 ETH
+        await cm.ensure_channel(sequencer_url, "1000000", expiry) # 1 USDC
         
         # Create voucher
         amount = int(accepts.get("maxAmountRequired", "0"))
@@ -418,9 +447,9 @@ class PaywallService:
             >>> header = await service.generate_payment_header(accepts0)
             >>> assert isinstance(header, str) and header
         """
-        private_key = os.getenv("X402_PRIVATE_KEY")
+        private_key = os.getenv("X402_AGENT_PRIVATE_KEY")
         if not private_key:
-            raise ConfigError("X402_PRIVATE_KEY is not set")
+            raise ConfigError("X402_AGENT_PRIVATE_KEY is not set")
 
         acct = Account.from_key(private_key)
         valid_before = int(time.time()) + int(accepts0.get("maxTimeoutSeconds", 300))

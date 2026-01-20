@@ -105,7 +105,7 @@ export const requireX402Payment = (options: RequireX402Options) => {
       outputSchema,
       extra: {
         paymentId,
-        sequencerUrl: process.env.SEQUENCER_URL ?? 'http://localhost:3000',
+        sequencerUrl: process.env.PUBLIC_SEQUENCER_URL ?? process.env.SEQUENCER_URL ?? 'http://localhost:3000',
       },
     };
 
