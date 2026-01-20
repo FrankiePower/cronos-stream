@@ -48,3 +48,4 @@ tmp/
 tempo_data
 grafana_data
 agent_cache.json
+channel_state.json
