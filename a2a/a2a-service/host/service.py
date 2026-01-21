@@ -407,7 +407,15 @@ class PaywallService:
             "paid": True,
             "paymentId": payment_id,
             "pay": res.json(),
-            "data": retry.json()
+            "data": retry.json(),
+            "debug_info": {
+                "method": "CronosStream (Layer 2)",
+                "channelId": channel_id,
+                "sequencerUrl": sequencer_url,
+                "voucher": voucher,
+                "amount": amount,
+                "recipient": pay_to
+            }
         }
 
     @handle_errors(default_return="", log=True, reraise=True)
@@ -490,4 +498,21 @@ class PaywallService:
         """
         paid = result.get("paid")
         pid = result.get("paymentId", "—")
-        return f"paid={paid} paymentId={pid}\n\n{result.get('data')}"
+        debug = result.get("debug_info", {})
+        
+        lines = [
+            f"Status: {'PAID' if paid else 'FREE'}",
+            f"Payment ID: {pid}"
+        ]
+        
+        if debug:
+            lines.append(f"Method: {debug.get('method')}")
+            lines.append(f"Channel: {debug.get('channelId')}")
+            lines.append(f"Voucher Amount: {debug.get('amount')}")
+            lines.append(f"Recipient: {debug.get('recipient')}")
+            # lines.append(f"Signature: {debug.get('voucher', {}).get('signature')}")
+            
+        lines.append("\n[Server Response]")
+        lines.append(str(result.get('data')))
+        
+        return "\n".join(lines)
