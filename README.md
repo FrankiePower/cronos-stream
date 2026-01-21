@@ -51,20 +51,41 @@ Trading bots subscribing to sub-second price updates from an Oracle Agent.
 *   Python 3.11+.
 *   Node.js (for Resource Service).
 
-### 2. Launch Services (Universal Setup)
-This script bootstraps the entire stack (Sequencer, Resource Service, DB):
+### 2. Launch Everything (Unified Start)
+In one terminal, run the start script. This boots Docker (Infrastructure) AND the AI Agent (Background Service).
 ```bash
 cd demo
 ./start.sh
 ```
 
-### 3. Run the Agent
+### 3. Interact (The Demo)
+In a second terminal, run the interactive CLI. This opens a shell where you can chat with the agent, check balances, and see detailed execution traces (including payment vouchers and channel IDs).
 ```bash
-cd a2a/a2a-service
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python3 -m host.main
+cd demo
+./agent.sh
+# Then type: "I want to access the premium content"
+```
+
+### 6. Run Benchmarks
+To run the performance suite (TPS, Latency):
+```bash
+./demo/benchmark.sh
+```
+
+### 7. Stop Everything
+When finished, run the stop script to cleanly shut down Docker and the background Agent process.
+```bash
+cd demo
+./stop.sh
+```
+
+### 4. Stopping Services
+To stop the demo environment and clean up resources:
+```bash
+cd demo
+docker compose down
+# Kill any lingering Python agent processes
+pkill -f "python3 -m host.main"
 ```
 
 ## � Documentation
