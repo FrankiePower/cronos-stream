@@ -3,18 +3,24 @@ set -e
 
 # Colors
 GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo -e "${GREEN}Starting CronosStream Universal Demo Setup...${NC}"
+echo -e "${GREEN}🚀 Starting CronosStream Demo Suite...${NC}"
 
-# Source env vars from sequencer and resource-service
-# We map them to the names expected by docker-compose
+# ==============================================================================
+# 1. Environment & Config
+# ==============================================================================
+cd "$(dirname "$0")"
+
+# Source env vars
 if [ -f "../sequencer/.env" ]; then
     echo "Loading configuration from sequencer/.env..."
     export SEQUENCER_PRIVATE_KEY=$(grep SEQUENCER_PRIVATE_KEY ../sequencer/.env | cut -d '=' -f2)
     export CHANNEL_MANAGER_ADDRESS=$(grep CHANNEL_MANAGER_ADDRESS ../sequencer/.env | cut -d '=' -f2)
 else
-    echo "Error: ../sequencer/.env not found."
+    echo -e "${RED}Error: ../sequencer/.env not found.${NC}"
     exit 1
 fi
 
@@ -23,32 +29,61 @@ if [ -f "../a2a/resource-service/.env" ]; then
     export MERCHANT_ADDRESS=$(grep MERCHANT_ADDRESS ../a2a/resource-service/.env | cut -d '=' -f2)
 fi
 
-echo -e "${GREEN}Configuration:${NC}"
-echo "CHANNEL_MANAGER_ADDRESS: $CHANNEL_MANAGER_ADDRESS"
-echo "MERCHANT_ADDRESS: $MERCHANT_ADDRESS"
-
-# Start Docker containers
-echo -e "${GREEN}Bringing up Docker containers...${NC}"
+# ==============================================================================
+# 2. Start Infrastructure (Docker)
+# ==============================================================================
+echo -e "${BLUE}🐳 Docker: Starting containers...${NC}"
 docker compose up -d --build
 
-# Wait for services
-echo -e "${GREEN}Waiting for services to be healthy...${NC}"
-echo "Waiting for Sequencer (localhost:4001)..."
+echo "Waiting for services to be healthy..."
 until curl -s http://localhost:4001/health > /dev/null; do
     sleep 2
     printf "."
 done
-echo " Sequencer is up!"
+echo -e "\n✅ Sequencer is UP"
 
-echo "Waiting for Resource Service (localhost:8787)..."
 until curl -s http://localhost:8787/health > /dev/null; do
     sleep 2
     printf "."
 done
-echo " Resource Service is up!"
+echo -e "✅ Resource Service is UP"
 
-echo -e "${GREEN}Universal Setup is ready!${NC}"
-echo "Sequencer: http://localhost:4001"
-echo "Resource Service: http://localhost:8787"
-echo ""
-echo "To stop: docker compose down"
+# ==============================================================================
+# 3. Start Agent Service (Python Background)
+# ==============================================================================
+echo -e "${BLUE}🤖 Agent: Booting AI Service...${NC}"
+
+# Setup Python Env
+cd ../a2a/a2a-service
+if [ ! -d "venv" ]; then
+    echo "Creating virtual environment..."
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt > /dev/null 2>&1
+else
+    source venv/bin/activate
+fi
+
+# Kill old process if exists
+PID=$(lsof -ti:9001 2>/dev/null || true)
+if [ -n "$PID" ]; then
+    echo "Killing existing agent (PID $PID)..."
+    kill -9 "$PID"
+fi
+
+# Start in background
+nohup python3 -m host.main > ../../demo/agent.log 2>&1 &
+AGENT_PID=$!
+echo "$AGENT_PID" > ../../demo/agent.pid
+
+echo -e "✅ Agent Service started (PID $AGENT_PID)"
+echo -e "   Logs: demo/agent.log"
+
+# ==============================================================================
+# 4. Ready
+# ==============================================================================
+echo -e "\n${GREEN}✨ SYSTEM READY ✨${NC}"
+echo "--------------------------------------------------------"
+echo "1. Run the Demo:      ./agent.sh \"I want premium content\""
+echo "2. Stop Everything:   ./stop.sh"
+echo "--------------------------------------------------------"
