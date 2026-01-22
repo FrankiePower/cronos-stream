@@ -158,3 +158,24 @@ We have organized detailed documentation in the `docs/` folder:
 *   `demo/`: Docker orchestration and startup scripts.
 *   `scripts/`: Utility scripts for verification and management.
 
+## 🏆 Hackathon Submission & Roadmap
+**Targeting: Main Track (x402 Applications) - 1st Place Residency Award ($24,000)**
+
+### 🏁 Why We Qualify
+*   **x402 Agentic Finance**: We provide the missing financial rail for AI agents (Streaming Payments).
+*   **Dev Tooling**: We offer a complete Dockerized environment and CLI for developers.
+*   **Innovation**: Novel use of EIP-712 for off-chain state channels on Cronos.
+
+### 🗺️ Residency Roadmap (9-Month Plan)
+We are committed to the long-term growth of the Cronos AI ecosystem. Here is how we will utilize the Residency Award to move from "Hackathon" to "Protocol":
+
+*   **Phase 1: Developer Experience (Months 1-3)**
+    *   Release `cronos-stream` Python pip package.
+    *   Build "One-Click Payment" integration for LangChain and CrewAI.
+*   **Phase 2: Protocol Hardening (Months 4-6)**
+    *   Third-party security audit of `StreamChannel.sol`.
+    *   Support for multi-token streaming (CRO, VVS, meme coins).
+*   **Phase 3: Decentralization (Months 7-9)**
+    *   Open-source the Rust Sequencer for community operation.
+    *   Launch "Dispute Courts" for trustless settlement without a centralized sequencer.
+
