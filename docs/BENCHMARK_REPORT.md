@@ -18,7 +18,7 @@ Our benchmark bypasses the "Brain" (LLM) to test the "Wallet" (Sequencer) direct
 flowchart TB
     subgraph Full_Agent ["🤖 Full Agent Flow (User Experience)"]
         direction TB
-        U[User Query] --> LLM[🧠 LLM Planner (1-5s)]
+        U[User Query] --> LLM["🧠 LLM Planner (1-5s)"]
         LLM --> DECIDE{Decide to Pay}
         DECIDE --> PAY_SVC[💳 Paywall Service]
         PAY_SVC --> ACCESS[Resource Access]
