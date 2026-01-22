@@ -2,9 +2,14 @@
 
 **High-Frequency Layer 2 Streaming Payments for AI Agents on Cronos.**
 
-> **Tagline**: "1000 payments. 2 transactions. Instant settlement."
+**Tagline**: "1000 payments. 2 transactions. Instant settlement."
 
 CronosStream is a payment infrastructure enabling AI Agents to perform high-frequency, low-latency micro-transactions using EIP-712 off-chain vouchers and strictly verifiable on-chain settlement.
+
+## 🔗 Contract Addresses (Cronos Testnet)
+*   **StreamChannel**: [`0xE118E04431853e9df5390E1AACF36dEF6A7a0254`](https://explorer.cronos.org/testnet/address/0xE118E04431853e9df5390E1AACF36dEF6A7a0254)
+
+*   **devUSDC**: [`0xc01efAaF7C5C61bEbFAeb358E1161b537b8bC0e0`](https://explorer.cronos.org/testnet/address/0xc01efAaF7C5C61bEbFAeb358E1161b537b8bC0e0)
 
 ## 🚀 Status: Production Ready (v1.0.0)
 *   **Network**: Cronos Testnet (Chain ID 338).
@@ -106,6 +111,3 @@ We have organized detailed documentation in the `docs/` folder:
 *   `demo/`: Docker orchestration and startup scripts.
 *   `scripts/`: Utility scripts for verification and management.
 
-## 🔗 Contract Addresses (Cronos Testnet)
-*   **StreamChannel**: `0xE118E04431853e9df5390E1AACF36dEF6A7a0254`
-*   **devUSDC**: `0xc01efAaF7C5C61bEbFAeb358E1161b537b8bC0e0`

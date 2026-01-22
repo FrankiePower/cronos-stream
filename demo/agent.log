@@ -12,3 +12,7 @@ Channel seeded in sequencer.
 Submitting voucher to http://localhost:8787/api/pay-voucher...
 Voucher settled! Retrying resource...
 INFO:     127.0.0.1:62048 - "POST /rpc HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [21771]

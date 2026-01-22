@@ -14,14 +14,14 @@ Agent A                                      Agent B's API
    │  "Pay me $0.01 first"                        │
    │<─────────────────────────────────────────────┤
    │                                              │
-   │  On-chain tx #1 ($0.01)  [~5 sec wait]       │
+   │  On-chain tx #1 ($0.01)  [~3 sec wait]       │
    ├─────────────────────────────────────────────>│
    │  Here's your data                            │
    │<─────────────────────────────────────────────┤
    │                                              │
    │  API call #2                                 │
    ├─────────────────────────────────────────────>│
-   │  On-chain tx #2 ($0.01)  [~5 sec wait]       │
+   │  On-chain tx #2 ($0.01)  [~3 sec wait]       │
    ├─────────────────────────────────────────────>│
    │  Here's your data                            │
    │<─────────────────────────────────────────────┤
@@ -174,7 +174,6 @@ The Facilitator handles the USDC transfers. Our Sequencer handles the off-chain 
 
 ## References
 
-- [Cheddr Payment Channels](https://github.com/AnotherDevBoy/x402-hackathon) - Base implementation
 - [x402 Protocol](https://www.x402.org/)
 - [Cronos Facilitator SDK](https://www.npmjs.com/package/@crypto.com/facilitator-client)
 - [EIP-712: Typed Structured Data Hashing](https://eips.ethereum.org/EIPS/eip-712)
