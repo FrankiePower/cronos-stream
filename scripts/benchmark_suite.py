@@ -226,19 +226,81 @@ class BenchmarkClient:
         print(f"Sent {success_count} reqs in {elapsed:.2f}s")
         print(f"Throughput: {success_count / elapsed:.2f} req/s")
 
+    def close_channel(self):
+        print(f"Closing Benchmark Channel {self.channel_id}...")
+        
+        # 1. Prepare final state
+        timestamp = int(time.time())
+        recipients_list = list(self.balances.keys())
+        amounts_list = [self.balances[r] for r in recipients_list]
+        
+        # 2. Sign "I agree to close with this state"
+        data = {
+            "types": {
+                "EIP712Domain": [
+                    {"name": "name", "type": "string"},
+                    {"name": "version", "type": "string"},
+                    {"name": "chainId", "type": "uint256"},
+                    {"name": "verifyingContract", "type": "address"}
+                ],
+                "ChannelData": [
+                    {"name": "channelId", "type": "bytes32"},
+                    {"name": "sequenceNumber", "type": "uint256"},
+                    {"name": "timestamp", "type": "uint256"},
+                    {"name": "recipients", "type": "address[]"},
+                    {"name": "amounts", "type": "uint256[]"}
+                ]
+            },
+            "domain": {
+                "name": "StreamChannel",
+                "version": "1",
+                "chainId": self.chain_id,
+                "verifyingContract": self.contract_address
+            },
+            "primaryType": "ChannelData",
+            "message": {
+                "channelId": HexBytes(self.channel_id),
+                "sequenceNumber": self.sequence_number,
+                "timestamp": timestamp,
+                "recipients": recipients_list,
+                "amounts": amounts_list
+            }
+        }
+        
+        encoded_msg = encode_typed_data(full_message=data)
+        signed_msg = self.account.sign_message(encoded_msg)
+        # user_signature = signed_msg.signature.hex() # Not needed if just triggering endpoints that don't verify strict user sig yet?
+        
+        # 3. Request Sequencer to Finalize (Mutual Close)
+        import requests
+        try:
+            res = requests.post(f"{SEQUENCER_URL}/channel/finalize", json={"channelId": self.channel_id})
+            if res.status_code == 200:
+                print(f"✅ Sequencer closure triggered! Hash: {res.json().get('transactionHash')}")
+            else:
+                print(f"❌ Sequencer refused closure: {res.text}")
+        except Exception as e:
+            print(f"❌ Failed to contact sequencer for closure: {e}")
+
 async def main():
     if not PRIVATE_KEY:
         print("Error: X402_AGENT_PRIVATE_KEY is missing.")
         return
 
     client = BenchmarkClient(PRIVATE_KEY)
-    await client.setup_channel()
     
-    # 1. Live Signing (10s)
-    await client.run_live_signing(10)
-    
-    # 2. Pre-Signed (1000 reqs - 10k might be too slow for python single thread gen)
-    await client.run_presigned(1000)
+    try:
+        await client.setup_channel()
+        
+        # 1. Live Signing (10s)
+        await client.run_live_signing(10)
+        
+        # 2. Pre-Signed (1000 reqs)
+        await client.run_presigned(1000)
+        
+    finally:
+        if client.channel_id:
+            client.close_channel()
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -68,14 +68,20 @@ async def test_streaming_reuse():
     print(f"   ✍️  Signature:    {v2['userSignature'][:10]}...")
     
     # 6. Verify Increment
-    n1 = int(v1['sequenceNumber'])
-    n2 = int(v2['sequenceNumber'])
-    
-    if n2 == n1 + 1:
-        print("\n✅ SUCCESS: Sequence Number incremented correctly!")
-        print("   This proves the channel is being reused for sequential streaming payments.")
-    else:
-        print(f"\n❌ FAILURE: Sequence Number did not increment ({n1} -> {n2})")
+    try:
+        n1 = int(v1['sequenceNumber'])
+        n2 = int(v2['sequenceNumber'])
+        
+        if n2 == n1 + 1:
+            print("\n✅ SUCCESS: Sequence Number incremented correctly!")
+            print("   This proves the channel is being reused for sequential streaming payments.")
+        else:
+            print(f"\n❌ FAILURE: Sequence Number did not increment ({n1} -> {n2})")
+            
+    finally:
+        print("\n[Step 5] Cleaning Up (Closing Channel)...")
+        if cm:
+            cm.close_channel(sequencer_url)
 
 if __name__ == "__main__":
     asyncio.run(test_streaming_reuse())

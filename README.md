@@ -49,7 +49,7 @@ The recipient can withdraw their balance at any time by submitting the **latest 
 flowchart TB
     subgraph OnChain ["⛓️ On-Chain (Cronos Mainnet)"]
         direction TB
-        Contract[StreamChannel Contract<br/>(Locked Collateral)]
+        Contract["StreamChannel Contract<br/>(Locked Collateral)"]
     end
 
     subgraph OffChain ["🚀 Off-Chain Layer (P2P)"]
