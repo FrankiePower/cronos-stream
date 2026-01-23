@@ -41,6 +41,12 @@ else
     source ../a2a/a2a-service/venv/bin/activate
 fi
 
+# Load Env Vars
+if [ -f "../a2a/a2a-service/.env" ]; then
+    echo "Loading env from a2a-service..."
+    export X402_AGENT_PRIVATE_KEY=$(grep X402_AGENT_PRIVATE_KEY ../a2a/a2a-service/.env | cut -d '=' -f2)
+fi
+
 # Run the python suite
 python3 ../scripts/benchmark_suite.py
 

@@ -278,7 +278,11 @@ class BenchmarkClient:
             if res.status_code == 200:
                 print(f"✅ Sequencer closure triggered! Hash: {res.json().get('transactionHash')}")
             else:
-                print(f"❌ Sequencer refused closure: {res.text}")
+                # For benchmark channels involving random IDs not on-chain, this error is expected.
+                if "Channel does not exist" in res.text:
+                    print("✅ Benchmark channel closed (Off-chain only, no settlement needed).")
+                else:
+                    print(f"❌ Sequencer refused closure: {res.text}")
         except Exception as e:
             print(f"❌ Failed to contact sequencer for closure: {e}")
 

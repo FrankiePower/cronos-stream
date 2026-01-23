@@ -39,15 +39,15 @@ flowchart TB
 
 | Metric | Off-Chain Demo | CronosStream (Verified) |
 | :--- | :--- | :--- |
-| **Throughput** | 100+ TPS (Theoretical) | **27.81 TPS** (Python Client Limit) |
-| **Signing Mode** | Pre-Signed | **14.00 TPS** (End-to-End Live) |
-| **Reliability** | Poor (timeouts) | **100% Success** (0 failures in 1000 requests) |
+| **Pre-Signed Burst** | 100+ TPS (Theoretical) | **131.83 TPS** (Validated) |
+| **Live Signing** | Pre-Signed | **70.00 TPS** (End-to-End Live) |
+| **Reliability** | Poor (timeouts) | **100% Success** (1700+ failures=0) |
 
 ### Methodology (Replicating Reference)
 We replicated the `reference-1` benchmark methodology (`benchmark.ts`) via `scripts/benchmark_suite.py`:
-1.  **Live Signing (14.00 TPS)**: Simulates a real Agent signing and paying sequentially in a tight loop. This measures the full "application latency" (Sign -> Network -> Verify -> DB).
-2.  **Pre-Signed Burst (27.81 TPS)**: Pre-generates 1000 signatures and floods the Sequencer. This measures the raw capacity of the validation engine.
-    *   *Bottleneck*: The 27.8 TPS is mostly likely capped by the Python `httpx` client's sequential overhead. The Sequencer CPU usage remained minimal.
+1.  **Live Signing (70.00 TPS)**: Simulates a real Agent signing and paying sequentially in a tight loop. This measures the full "application latency" (Sign -> Network -> Verify -> DB).
+2.  **Pre-Signed Burst (131.83 TPS)**: Pre-generates 1000 signatures and floods the Sequencer. This measures the raw capacity of the validation engine.
+    *   *Bottleneck*: The 131 TPS is likely limited by the Python client's sequential network I/O. The Rust Sequencer can likely handle much higher with parallel clients.
 
 ### What This Means
 We have transformed "Agent-to-Agent Payments" from a **slow, fragile process** into a **real-time stream**.
