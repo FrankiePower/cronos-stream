@@ -373,7 +373,16 @@ class PaywallService:
         
         # Ensure channel exists (seed if needed)
         expiry = int(time.time()) + 31536000 # 1 year
-        await cm.ensure_channel(sequencer_url, "1000000", expiry) # 1 USDC
+        await cm.ensure_channel(sequencer_url, "5000000", expiry) # 5 USDC
+        
+        # PERSIST the actual (possibly computed) Channel ID so we reuse it next time
+        if cm.channel_id != channel_id:
+             try:
+                with open(STATE_FILE, "w") as f:
+                    json.dump({"channelId": cm.channel_id}, f)
+                    print(f"Updated persisted channel ID to: {cm.channel_id}")
+             except Exception as e:
+                print(f"Failed to update channel state: {e}")
         
         # Create voucher
         amount = int(accepts.get("maxAmountRequired", "0"))
@@ -410,7 +419,7 @@ class PaywallService:
             "data": retry.json(),
             "debug_info": {
                 "method": "CronosStream (Layer 2)",
-                "channelId": channel_id,
+                "channelId": cm.channel_id,
                 "sequencerUrl": sequencer_url,
                 "voucher": voucher,
                 "amount": amount,

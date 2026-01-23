@@ -1,18 +1,25 @@
-INFO:     Started server process [21771]
+INFO:     Started server process [79835]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:9001 (Press CTRL+C to quit)
-Loaded persisted channel ID: 0xb9b6e6410e7b2691c5875b8d17979ff9dc17e4578b1a3eed54c88850da59fe54
-Target Channel ID: 0xb1943b09b55b574a5428afe95ead31c672c0f21d8104519edef4d21689624cd0
+Created and persisted new channel ID: 0x800fb725124fd2be33d3938b34a4a1fa1415a84f2e414e4835ed4004c36277b2
+Target Channel ID: 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3
 Opening Channel on-chain...
-Open Channel TX Sent: 0x6585a9d4adfad700cfbbcf495a8ba0e50a01b3828a2a95a16a0c54d4ba2a8182
+Open Channel TX Sent: 0x4c9d91f74b281e11c5beeb3354eb9d9a1e834a8a1bf1634be9cec96e953c1119
 Channel Opened On-Chain successfully.
-Seeding sequencer 0xb1943b09b55b574a5428afe95ead31c672c0f21d8104519edef4d21689624cd0...
+Seeding sequencer 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3...
 Channel seeded in sequencer.
+Updated persisted channel ID to: 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3
 Submitting voucher to http://localhost:8787/api/pay-voucher...
 Voucher settled! Retrying resource...
-INFO:     127.0.0.1:62048 - "POST /rpc HTTP/1.1" 200 OK
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [21771]
+INFO:     127.0.0.1:60236 - "POST /rpc HTTP/1.1" 200 OK
+Loaded persisted channel ID: 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3
+Channel 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3 found on sequencer. Synced.
+Submitting voucher to http://localhost:8787/api/pay-voucher...
+Voucher settled! Retrying resource...
+INFO:     127.0.0.1:60265 - "POST /rpc HTTP/1.1" 200 OK
+Loaded persisted channel ID: 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3
+Channel 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3 found on sequencer. Synced.
+Submitting voucher to http://localhost:8787/api/pay-voucher...
+Voucher settled! Retrying resource...
+INFO:     127.0.0.1:60274 - "POST /rpc HTTP/1.1" 200 OK
