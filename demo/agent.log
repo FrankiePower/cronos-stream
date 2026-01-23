@@ -1,25 +1,29 @@
-INFO:     Started server process [79835]
+INFO:     Started server process [86397]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:9001 (Press CTRL+C to quit)
-Created and persisted new channel ID: 0x800fb725124fd2be33d3938b34a4a1fa1415a84f2e414e4835ed4004c36277b2
-Target Channel ID: 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3
+Created and persisted new channel ID: 0x3e7f798f43221cc86afc55994d0caa04be65d479e808668a0b86cd6f4f13184f
+Target Channel ID: 0x9fd26c08381371d89169ec11463eefec2fc647bde090ccade223ebe88770e93d
 Opening Channel on-chain...
-Open Channel TX Sent: 0x4c9d91f74b281e11c5beeb3354eb9d9a1e834a8a1bf1634be9cec96e953c1119
+Open Channel TX Sent: 0x303734c6c5e4b59aab4899e78556fa2708c091d9db973d4a6d60d737b291e829
 Channel Opened On-Chain successfully.
-Seeding sequencer 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3...
+Seeding sequencer 0x9fd26c08381371d89169ec11463eefec2fc647bde090ccade223ebe88770e93d...
 Channel seeded in sequencer.
-Updated persisted channel ID to: 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3
+Updated persisted channel ID to: 0x9fd26c08381371d89169ec11463eefec2fc647bde090ccade223ebe88770e93d
 Submitting voucher to http://localhost:8787/api/pay-voucher...
 Voucher settled! Retrying resource...
-INFO:     127.0.0.1:60236 - "POST /rpc HTTP/1.1" 200 OK
-Loaded persisted channel ID: 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3
-Channel 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3 found on sequencer. Synced.
+INFO:     127.0.0.1:50677 - "POST /rpc HTTP/1.1" 200 OK
+Loaded persisted channel ID: 0x9fd26c08381371d89169ec11463eefec2fc647bde090ccade223ebe88770e93d
+Channel 0x9fd26c08381371d89169ec11463eefec2fc647bde090ccade223ebe88770e93d found on sequencer. Synced.
 Submitting voucher to http://localhost:8787/api/pay-voucher...
 Voucher settled! Retrying resource...
-INFO:     127.0.0.1:60265 - "POST /rpc HTTP/1.1" 200 OK
-Loaded persisted channel ID: 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3
-Channel 0x677b6492e2f089adbc643038a0f9e3c7f2dcaea8deb484b13518d875cc036be3 found on sequencer. Synced.
+INFO:     127.0.0.1:50699 - "POST /rpc HTTP/1.1" 200 OK
+Loaded persisted channel ID: 0x9fd26c08381371d89169ec11463eefec2fc647bde090ccade223ebe88770e93d
+Channel 0x9fd26c08381371d89169ec11463eefec2fc647bde090ccade223ebe88770e93d found on sequencer. Synced.
 Submitting voucher to http://localhost:8787/api/pay-voucher...
 Voucher settled! Retrying resource...
-INFO:     127.0.0.1:60274 - "POST /rpc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50711 - "POST /rpc HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86397]
